@@ -1,0 +1,387 @@
+app = customtkinter.CTk()
+app.title("Tool Mail")
+app.columnconfigure(0, weight=1)
+app.rowconfigure(0, weight=1)
+
+
+tabview = customtkinter.CTkTabview(app, width=1000, height=650)
+tabview.grid(column = 0, row = 0, sticky = "nsew")
+tab1 = tabview.add("Giới Thiệu")
+tab1.rowconfigure(0, weight=1)
+tab1.columnconfigure(0, weight=1)
+tab2 = tabview.add("Live Die Yahoo")
+tab2.columnconfigure((0,1), weight=1)
+tab2.rowconfigure(0, weight=1)
+tab3 = tabview.add("Live Die Hotmail")
+tab4 = tabview.add("Live Die Domain")
+
+#gioi thieu
+
+introduction = customtkinter.CTkLabel(tab1, text="LỜI MỞ ĐẦU\n\n Tool được phát triển bởi Tenica\nLiên hệ Telegram: @tenicayan để được update thêm tính năng\n hoặc đặt code tool theo yêu cầu\n Tất cả tool sẽ được bảo hành trọn đời\n\n ", font=("Arial", 20))
+introduction.grid(row = 0, column = 0, sticky = "nsew")
+
+#Yahoo
+
+yahoo_hits = 0
+yahoo_custom = 0
+yahoo_retries = 0
+def Yahoo(email):
+  global yahoo_hits, yahoo_custom, yahoo_retries
+  mail = email.split("@")[0]
+  d = f"browser-fp-data=%7B%22language%22%3A%22vi%22%2C%22colorDepth%22%3A24%2C%22deviceMemory%22%3A8%2C%22pixelRatio%22%3A1.25%2C%22hardwareConcurrency%22%3A12%2C%22timezoneOffset%22%3A-420%2C%22timezone%22%3A%22Asia%2FSaigon%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22Win32%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A5%2C%22hash%22%3A%222c14024bf8584c3f7f63f24ea490e812%22%7D%2C%22canvas%22%3A%22canvas%20winding%3Ayes~canvas%22%2C%22webgl%22%3A1%2C%22webglVendorAndRenderer%22%3A%22Google%20Inc.%20(Intel)~ANGLE%20(Intel%2C%20Intel(R)%20UHD%20Graphics%20(0x00009A68)%20Direct3D11%20vs_5_0%20ps_5_0%2C%20D3D11)%22%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A48%2C%22hash%22%3A%2262d5bbf307ed9e959ad3d5ad6ccd3951%22%7D%2C%22audio%22%3A%22124.04347527516074%22%2C%22resolution%22%3A%7B%22w%22%3A%221536%22%2C%22h%22%3A%22864%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%22816%22%2C%22h%22%3A%221536%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1708197772329%2C%22render%22%3A1708197772930%7D%7D&specId=yidregsimplified&cacheStored=&crumb=VQqdWByzb8dmM7OlQxkL1Q&acrumb=CzayAHuA&sessionIndex=Qg--&done=https%3A%2F%2Fwww.yahoo.com&googleIdToken=&authCode=&attrSetIndex=0&specData=Q61D5ClzI%2FYXr23n5qOcnHA%2BuxSUfPKTylVO6Icljy1yAw4Xp1lH7VHdopruiGVfKMcxyo0HsId8d6AODeSClP1fkmsSHGn7ZtZNehclQ4FejyKeS1J%2B%2B9iDCzr1EW4VCY%2FI5Q5hwMSbqbJavNQIE0FKk1E5aUAV7TaBOTWDwsv3MQjIaBKjLpGDamJYzipIsNFrB9w4kCqd1MrNKVIq5DhZ6YXAlcKsdlL4yl3TS6ClayO9v%2FrYh2IZyhejy4tQDfLo7UUY8aJ3Y%2FIXo0hLLHsJM28bb81pxllA%2B5SJJ0nscy3BB7UFbizjpLb391J9c%2B1%2B%2F6lJsdP4PR%2B9eINWM9lEbo7%2Fj3StEm2puJmgQApoa9vBbfXbvEVYkgmBD4h6bO8n5hxFAjM6e4Xgi8MNJ6ITd033nr4fp%2BR%2F%2Fj3vPya%2BpQqgg2w2tvAOJwHsCosBAYD62Vs1Gyjw2I6GBCPNRhyRoqDMX3RLhgFC9a8fC6lCXRgTP7vuZMR1nWxMxwO72jSkeNOG7QfyQ2QF8b1uV%2FPgIKDBKymBev3AFO7iNFQOHu%2FDujs8MBUVhROrFhNKXO%2FmYvW%2Fj58D2NOSq%2FdYi8GzWlxyVWhY73qpKeT7d5ritdS3A6pYs5GdhTgkJWeGXCcaMn8wxBedzrRzujtDlm%2Fjr%2B4kxxnGYmK4HtqmRDQS4SxSaw9fnIyLlGpvw%2BOO4gI4yPD%2FJc7eXy%2FpkOBltpQXsYgzavFM1c9JzDPoK9AexZNxGLG8AUbssMJLzmIvkI7Z%2BigtKQnZ4U7zaM%2BTtWxPGmKxzrwQhC3vOMy0ciUCQcIJ77rasYPZj1DI9EjrwPX4NBA4jZy2cCiVV991URqOz4j3IAeo3SI5XJAS1dDgrsIdiNhC2BA2NokNLkVR4cj0AQvsezsKSB6rzxrKhMzbFj1ZFKHuc1Q%2BKYB6y6oefNy3wzNaoS%2FX6EEHvYyZqEXJ3pElDVsqSe7p%2F9bB%2BpXdlj1rCe975VXvdiqK%2BgZSwhj48RmLi4g%2BXReRlYtJOE4mGDhEqmuhCDR8mvgwWOpVLiKJU%2BxY4Jgkm1xESHCSHdUatm%2BPGiSg%2FjbsS5j3Q5tFqZycfP3zSo67PBJ%2F%2FBwp7ZajIj6U0PUHUww8LiBL4uiWaZbsSY%2FwQcKdP%2Bn%2FdTsilX0Vl9tesx7rVe4bmIWvt65NyGw2e15fy%2F8Pb7Wn97YmcPJNSr4IkliJNEsWCzsUkA9Qvj9oKPbk7Gq3DgV%2Bk4K%2FuuP0q9kxfOYR3gHA1hr7jd1UwJiFoh5pF%2FyzEeXqfeaQWYOP4IUuWJApOrULm9v8GopaDRAAmN50An7yMZ%2FAp4s8JmlZ%2BlyAfsHdLO7qqaJd37%2BKriEKX38xNQk1SARxFK8Gx3HkiDGJ8fHMbuswnOtp2zDCOZLzY8Q5KBPdQjXRc5ZsqbdN4d19EY1AW48V5Q64YpjkuaSCsJI12TxQsqNNTvql8Xr45PzFAFVXL80avN1S8z%2FZUeQcevI2v%2BYxpg2Fdh2eVem%2BJ420FCQ9ohkyZlqxWpzpJW9JYjQgyyeG%2BPo%2BI04X1GA4fFj9UwCVEFGl44gVuucduaDX5kR4Im3Gh5s1Vc5lNPFtwZIIuxh3b8h7Y8nrdnuVLYvQ9zMPxvCQB5Zhj1SsmViaL5lCvM%2BZOeJjaTzQEePlIVBdKO90IumgEG9vV6K%2BdMe7nyjTv1t96aMT1fJK8gBXMMidrhuJqUNemU0L1GLPPJEDOt5tD8Qk4XWTw%2BZqlKk4WapBJmYhD0oJol65Tlf9QRsUaFghKHt5%2FiBZOFheXKn%2FVn%2BKcinsBXSmxv5EVxOMlbh%2FC3c5jx%2BiIK9lDxFG1izts5DtXgLoww35gSqJl8wi7BfReHvLlWbC%2FbIttZz9QOVqNAo%2BzSmXk8PZJM4V4cYhiCT6k7i0Uj%2BMfosSdqTfa0tGnfzI7lEiv5tNR63RBoBllkSgMW5G9F3WHpzRBVKvaxXWLwKvBrS1HaAcq4kv8tSScWkyDzCx9l4Nth2WBqSFDONmvCGwyIGJ0Rrt99xaOVPoVIUPbqmUv93oZQMi9WsTRno2%2BuIxDbfkTPaocSpLIYeDQKlONNuMzaKTiB5%2F%2FQ8aMvNZ2awmg91dGZoutzZL2wF8guUnjIcD9O4SyiLahQe5yypHllrHBhyM3kmttN20%2FtbKBQmhP23GeQUmTKtGpAQCWFSQBxbk5k6NRzbcf%2FgJGJjc3zMA5dlzZ2AdrHGxXC%2FVRMozhRCMsOI76JDHthtJq4b3uMaU%2BN4MR%2BXqJMBHrRD7Nlscw03Ej6ZDyQbnc7%2BAyv0hxWlY2P50Ajw%2B%2FEihYDl318V4I4ISFa05wFern%2BjbBSODZeG0tZcOoeprpeLGmCHCuuspQfANZ9eXVZynEYmX6pG8mb452eq9BRz2lZE13Hl1cdUzpf9eJ7hj1FubCZVNU5zK13oN39oO7an7u9w2YAM0V2HApdTiZkAgCajD3csmwAOw1wDoWcGpkVTQqvM33pI3pjy8I1mGEFEmlJL5QN89eHQx36YBrko7LzLnbju%2BjJzVbVnFQ3FN3e5OM2QDd8r%2BLY7r8jrJh3t%2Biv7jZ5dOueDzetAABzhEyObrQJb%2BPAQBXqxW8PbcrZ9wamfRGxYDgfm7TMAfvAzQogbM6FSDJekkOjpU5I2u7KQg%2BPgBarFzMnJgo6BJmI%2BuaejoZf4kvMYQYEXtOWXRdoTP%2BQq8TuTx%2BVzP9Gxji7ry1%2BChG8UsRJRAeX6xWBzLIU5uOZQftnt98TnpElccCVjU2aYvnwx9b9Jn0VaKX0BBDKwbcwXupUDs8cHQT78lGI13UxsZaCinf4Y1OIsFX9nvFIGD9RCrPxmyBjGx2HLSgZfqdfisHEAOz0mOoKaF%2BEk6T5qmt%2BTwlysgI6O4%2F%2FzhauXt29Rdnj44fPX67jj1GG0eUEQacjBwBg%2Fi4zdCs8VO0KlDtqTKtMAx2qp9xZU2cPyeTWzSYVjQIZmhrQujX%2B1BYSZAEcoPxhTOpRHzW9AuGZVxYhP9DA%2FzkM5vKqCcQpJCmR8ARcm0lDSzV0KJQnlWXqykoM8CK7%2B46fZof3b%2F5OV9x9K9zaYR3EtqstQ9N%2BAnmuzd%2BuUQG2lbjGmaGfG2vRiY%2Bt%2Bsbif6ECqB3a1gjf0kAvK9%2BKEB%2BdqYe2wk7fTeB3QS29D8dInVTg4UFvCjm%2FzdSMIu4ziqYIUq2yKD9NvC4ABygF4sAfncyUuZ7wnry0X4Zy9V9qPt8GjZQM1tUcxs0XDMX7750roBGw%2FZHbslveRapDk083M%2BWoMYFFV6WjnQxzgckgXqeWLBuirE0MFAR%2FcjXVFSDfRhDHivZxgL9jM%2F2QbqunlRNfZCpGUc33rHQ2J522Y4fGeVRAZWZ%2BDkmbJNyUJ24xB0yDI%2BonmLufQpm1As0htz4y7zMRpjsSUL8WIPlLk7gmz1XbsOyGjA%2BITwSvh9EyPuWTRLgjs3oDiZj2YcfAV%2ByLGSGM%2F5xiKYBaxTSKxg9gV%2FrYT1k6CocoJ2H74VBjyodv36RM7pXBxrkgjr3MVEde%2FzeWNKPXMK%2BjId24%2FYGaH9psvQAjid6%2BJUsJQxMf6CGsc02BvPHNM9IKpVCWKTjdoYSXLTQPtaTRGpxCqtR%2Bga7Y515PJPdqjyINvuNH%2BWDckF8Xq%2F%2Flm%2FBwUFLJUKaLJUdkIwne0dhKA63gG901Wq4AQ5lCqKjWYD2d3zz1aMV6fqTkVtkfEqVBm6mYWmMt8eRoXHIle17WUF%2BwfnORiEU%2BVy2MakggAAFgAdj7OJektiMzsF%2FOn4JhbRdhFdapjk5%2FzhW%2BYy%2FmwBnuRmQaXgfe2unPlDN6gEVQk4f8Z7EcY%2F6Q%2BSkDPs3UBxRGl0A86TVtxI6DZZSeSiQks8%2FClM1JDvn7L4dTHwWMcg7BmLhjS3kyEPNrKlDYrXr73QowDTlQouom4RZ3g9%2FuuPoRGn6KZBbops2s2JmyQwNKT%2Fl02hqdHvDKBNJZV24z5lKhOBGLeEfOCHC9wSC9%2FA6msWbSgI82Iy34R02dBC8%2B1RE12yg%2BHnLlysLEkRYzN10IxO85X7dzMaVkTG%2FkKroSbQ09Dqjb622IYC5KEQ15FfDV0Y0dBw8fVb9GLGs139LlzHEMdqDFwve9OeP3J0ErigcGMs922VDsUKWEtEF2Kt4yrpTf5Z4ILi%2F9qIYCjEKs3kK9TE7qSIQ3fbcHJBA9Yf07xDTQH8kWmLeA4679cM8ZWr3VHvLOxVZJ0tmnHlSAjobSC%2B32IDsupEJCFS7SQOXrGEeeyhT30Wq9x5n82Kvkf1dDpAOb07vawigvcOq1QeLuHe%2FLRdfyqzFCICxPjmko4akcM45au3iSmG05jk5CPMd%2FInjdec85z77PQGBHu6c3hWREWCfTebDxJv9ETPD6Ogu4nw5Z7jtEZKdh%2Fgm9K2YCPeBkidAlHVNb%2FVx6RW5XTBmp1hT7yfallN7IK5ARVJ8wCE363MSZOAX3FCLr5lPj4%2FAml9004HdvamnxU30JGZlMCC9NzuQHMwpJAvqyeWmD8SGJ15XQZRALyxpKxxg3R61ejhjv4OBmw6kdpWQuZ3GAe2Tn9wWVC8QCZYxuEwC4zmmMALDW713XiHuPG%2BDAD6nIMCR6dxh0JHj3d3lqt3jFHd8pwaDOgbDrNALn8oQKdar%2FlUaeNlSTaj8gFp%2BTYNcQ77elXqaDyb2lGno%2FPQ3PdRI4fTjJgCiH51ZXIcgFy1o3wpdsBzqmwTPF91Tl%2BKBMG4zjzgu%2BLVAHuGxxC3gt%2BXVaL87tINps6Jvu%2FqzuHQTGVG8%2FeSEHG5Rmeqz1sAfoweHAUs%2FWO1nJ1JQYsahvPbk26p4kBMosOiebQIwGnGQGy9w3urD7kIPE2Jgvs7yDJ8bvwVltjSEA9m0l4p4f9hqkiwHrCV8nJTA2tL4qLzm7j9goUcywZLmrzETtpYMvr%2B%2FYI0pLm4a7C1jIn2bQHV3eN6IpVCQnOHvoqklrv0h8sr%2B6OqlN7wkH8VUgs7gAhR%2BIKOatolsVCzAvYISTOOsnPXqn43wC1JeuPgWEZppyBOFOiQSXEnPOg27tZJS9t3NS35dwJJ1mEMkAZQqHirnbIhDb9O9imlBrFExxoxa3NYUcF9ftaMz9O%2BPk3L%2Fuy4gX8yTaw51oD6Txi4gGHlM0UdXaQnHJsdyjlJBFbNaAYTD84De1SiJLQngYx6Q8z21i%2B3uL%2BIaYcXPIx8TnvkhqRJ7yP%2FoxV1lqBLDej0It52XtdV6MEc1HgwQiwpjfT7cqa5RwuGa1UYIycLRS9nuuaLArXp961GpqnGFCbIo9P62HlHtHt1W0aaUH0reE4NkIBZY4dXH2TlWmwcOdDcuZjH9yJgHHs5n287qGDVJpp9wt3g%2BcgoI4Yo4H2Z60DOGI0BSowYAgdplGyEbrvElyp3ZPSEkKDUQfFQ3AVhi%2Bxgw3ibwPXcsGBmLZ1PqIkpElnEyEJRMQrY1HfJPb1PObRpLKwrSka8At%2F5dgBC2mWg0UaWT6RHEx4DI90Z1Jlj1w1PEJLkIwTtMLn8vjY2Qr1ygCLNVaIeCzsQ3ywkmN6AYtZEQrdqeF%2BcZ00l9ILhpgcuMI8tX9oeVI%2FLc14UikYU8NB17E2TAKSUWsTdjc27lYA7rgY%2ByljWqwSpE%2FEcLNW24BZxkOp5lqd%2BrEwVdx%2FDI7TB8bbu2rtqkrqIxeAg8XVJE47G0U26%2BPhpS%2FdYu63wVHl8sctZ4mpVbN84C%2BQzEC1rvAWlTbFBpCkpGZu%2BA1MJIc8cuGZ54Ng2TqlAERIAl9av%2FJE%2Bok256eL64yhEPVzuVn63HLW0vxZfMPcEJ5gt5jrDVbp%2BL4DVsrREUvpo6Qbnr5i%2FYTgoOczEIT51FJNzVfnkR%2BWeu79izn3UWKOeV1OEr3mbZYnIU2i4GtyvwpcrMl2QM5FojRuqg%2FcZhMwHxXA7FPOiwIX%2Fwi6QhTGSE7BT3vUPy630bMK8BNNokmo67XpFaLazQH95Y%2B9wqVgNFPsiyvyEk6uEOnjKvUrarT1E%2F58c7%2B22w8NxGvNj3iOVTZIqwLKziyHJ9tFaTgt2sINGDkD6NwjQtNYD0f0W6vM3FOOcea3gBFlbWjvizAnV9BQcMugz4AcbLoD6uAwLoUA3KSKXyC2XUh1A6Gw0vNwhhctJ7qdgTsjhVReboHRLCnii5Jvp%2FU8ptTmNO%2F5HKctq57Mzdkqv0AAI%2BvOOTREYlwmXaqeVr1LvzChXA1z%2FQzfIEJKqxZWPQeeJIgQKiOOjN4vk0q00Bpg%2FpPi9QE9qCo397VDHyHabL3AoH9hsztW%2F04U%2Fmx9bmjKq%2F61YsTI1VmRozfp0NV4qApwGN%2B2CC5NvIkkYrXma9GrqEmyEWxislJOsevcCuK03%2BQnAve4%2BKy4lc5o%2BVSUKBM0KNQfiRIvssSoOqAYbi1zG%2FOCwqHucJYpdxzw%2BvvVEUghos6qDL9IPj6fCQMQfKVP9JLn7gJbNBChTRH1UNUXBnvcc8LbO5slht6mLTowrHYAQSqP%2FcoZ%2BJ5NPdSp4Rx8pcUbbaOEOLByj%2BUg2pcm%2BgQ%2BcDbwqs8ArsloPEdD3JEq5%2B2%2B9T1MLBhpc8iJIKRCimJ6ZhJtNuaJWnYuLLUYAf4dUouJ8Gu8OfxbPKxn7T5AawRqmuJEn7F136%2FD3admm6socJ8wrOdLu%2FqCTohjEkPDYNo2KqC%2FEv2R%2FuvXOJBIHCGb2KxTSg%2FRu7NmJID6G5yie9jZ5k5pr98H61yehXbn2wFJOnG6Wm0kMViTxtaCZj9n4gG8tBr%2B2lyLT9dbeAYvEIKp1iqmiXvbmhY20tk3TBLbVUrDyvncZlPTxoQrdZY0UNo24BIibzDv9wWPT35NRa%2FYlppGx2ZHP7vtBcwmMeTiQh4lg2grVdpBMFnkPP2LUSg5J43SLdpTuBrP81cN80uObJgw7LIpVmLTCSiK6zAzqLchU3vArv40xTlhlNQSlALIgPkEzIB7p5KwX7iQg%2FuQdmdABCuEATOgwnzZrxWsn6BfppqyRqlZ9LY1pI%2Fdb5r%2F%2BkIvkLF1ePOiO%2F%2B3bzczkkO0Ni%2FyOM6zUUwaY5yX%2F2HbtWK550%2FG%2FyFFxlyYYXULrNH1Zg1nZ9x2eyaHgIF2nolSzK%2FbWVUVPmBUABWBxC%2B5DsTSo3cQgXC%2BcdSCFGMp2nnqA5EOLAMrTHJh4AmRJOklOkXPlB%2FqIJz3C0gssATOKKRL8Ih7wfuhQvgLf9rc3DSwCFkN4cl98IUlEy%2B77vD3Mq20KQh5y0Q4%2B1nVxdhwyuvdSY9sRpCrKt6PwxLy1eTfGNWXand7aWZpxvzY%2FJhr6GmxDKJ8Ui0XUrktbEj2mzXjS3YNKdkVvl5fN6Zq1rGR5YQRelCC56yNfO3ZXXo4KQcs5V17fcUjA3aJgjv1WXVKvoE2%2Fv0rYgjDfJggs1plBh8w2ZD3pTXAaTDSd%2Bf6MZhapoRwWhSZ1J1sKDK%2FbUGkwupLwlLk6zgF8xKRlxEe%2BH0LAtb7%2FrKDayShYg0wgHWrhahSSEsOmOdZgsvTqynpWg5ooymMUpPSyHMA2maIbMaUy%2B1YzOZlgk5SR1BbLPAa6JU3CHCX7Tw4NXCceqsrchHzqiKyeZWhNWQxjWWKltwU038ksINnMMF%2BLKFjsinHvpZ64pyixwgJ6MAeJ1csLbmreuY9o%2Bhc3mrhn7xdsW%2BgeC%2FIxGSWJP70j9RihYyj1B7vZ2UF5ssT8tPyCNW3q%2BtMy8mMorGoH9fmY%2FAQRM8jnEC%2F4DAbRXjmLAlDQh6cnZrD6d5lvh1ItA0%2BAz8GLq92YloRfKr%2Bfcs5ZyFZtAilbZh1f5464khkna%2ByvY1CijETpFyOkC6j1EIc0JnAfSxEyTgw2sWmNM8PkaPNkvr2HMj2Suma4sxcsWngCc0S63SVDodzoBQFEOZXvobCW9AAUGsORVn6yTCRX6zZt7t5AhSkP23OmlnQ4jK%2FYwSyXti0dSLIp9dcG3FDJEEMyLu7rX28HsQDgPRZC5JHt7Bh1Q7jgiPw4fpJNW1YOb4Hh4D0xBhGY52XTneCWoYdb7UxVONFh%2BhYD%2BxCNHWpXrfEYYuZlcRz26Ut7OgpVU9uTL78GPmJ8iEpR1%2BRxwOEfuMl0Uh8G5zXVfDEjPCgkqg12Xeycf3fBkHFDty2AHPV4ZEJYVlr%2FYj7WIYCny2SycfnZwOrciEYGXAQujRPcD13972Rt1TuolwRv25TlyNZY70fmz7%2FSQ1NIS4WSGHOSoN0VqRCwJYgLnyGDF5%2BBK1t%2Bdkm9r%2BmRIChneKty67ME%2FGM9y0Tc8LVtuJGr0m%2BEBFgy6jLjwEACQdIJWp5JrIhtWFRUTF7eFPGJb5mZ1w43fz%2FNxq3L1SSEgnp%2B2%2BSGHPgpo%2BsGxnbVqWfG0eIE7Qaq5L6FP5pXBg6UWkc8LUZEzQwsiK8iCHpGHCqeMPyzMLTJcjzT2cR5TY%2BRZWNbldPfV%2FCQMrpFXpWXt305dv95DAD9JtUKW%2F0qCT6q%2F5EevsvuBsXLlJR6SevWt6zn1Hk5KHlMSl3IIlH3E1Prpls%2Fy5aftovWXCL3BmLyGo3LdUm8l83ADmr1ZAz5%2F06qOCfnqNdAvB3QfulKZ66L5xGoH%2FWiw4kbt%2FVFX%2BMG10tJheXcc9bRZ0hNNwnVs5Zbofj3zapC0Qgs5XlGgRZ5ERsKA87rJASShdWoZk5Hc5ejwYOZ7pnO43QByW4ONcHdaD7nCDhcwCmdn9d6XoEuhw0Po5wp31jos5MHpzObaXqyBzkew1OYqc4HISZ7%2FKeOwUtQm5LmsewLWIXnBX%2FbV2xAhtg4T8UsIJtKetJIUyGlpkQCVfP%2FMxzSLtjZEPBun4wixQxZpVWVmFu%2Ffs%2B3Qs4pgWhHZZUbhFBee8O82cQDXzwncF2zzatVVPqlhZzL42RbTxQ6oal7X%2FcBIIAqJlL8qigJgpmQUy9wMb7RF8%2BUTDxQPLQdVb9lzOE%2B2%2FKnfYIrCvnrQNAyGL0sVPvy1iNvddqAiid6PPG8xVCjeNl0cX22AAgNouzRzEX8Nl8uTX8BSMw17aPYz1O3DnukcYWETMjQv%2FyKVmeiVRCak08TyMDrUwgPNzpCe6NM0uvqlJnj1LPnB3LY9FgBeJsfccw%2Beh7mbeeUcoHeF1iOh9FWBNBsO8BlCA6s%2B32vcUTkWGsfa1KpKpK0Fo7gFVDXA%2BDBjJin3ZT%2FCm2gJdoRzvfxIx%2Ff%2Fic4MqXzqhZMA3odVlj10luS1R2atDVb3Kl05tcvstuCmdVO%2BMJ5M0QSlPNLAbN41GRBxl0%2Bbu8unP1Gl%2FrWDEdbdU9cwF%2BQsDKvC4m2f5rvKBYpUS6%2BOy9mHdzWoIp0x24cW6oCaRBXJs%2FXIDe%2BoJa%2FftaGRA5awA6Tlz0XwuD%2FLWjZxdXsFkpho8onX6W48cn7buwA4VOk6WpPd1c1R%2BVHA2WFq1m2nhU1hBl1z4Nt4RV4VncZPU5EfgTzfz64o6qCACjdHG4VMqN6ODpc8%2F1r5W7EsFJtsd5KuqS6FS6MJkK23u3INdSKb%2FLG0tAiAphw3ez0GvVkjKW3mKuOMSqlu00M3hvOBfJ6gdQ98XEn7zmC8kuwpWAN60HypMf3ybvlgktWn%2FALeG5hqp0Zsjd26l1RKnKuWTtOMCxh2fWow1wZMfFtbizQFCFejKBSOC5pNCxbx1gJSKnc38lw21MELqIm88SfXxYVnSRjceTMUG3948Q2J6H6Yskn%2FcsOcYalPjYL8ouLp3RfvYdbjRHwGUWqOIGBawainPd1g3Of8VRTgm1fgUkm3%2BP7lMSNIkTyp%2F%2Bm6FiGOPAffU9Uj7oHHrlEzcJe2ngcsl54FKumGnws4R5%2BLSqSoWmuRG%2FeKrmdqxQ8CJ%2FTXFPbCiIKk6fOe2m1YZtSDpbelcO7lFCCn%2B3urL2DSa6PXjDQevq4Ir8eUL1YCQDDnNJyIFVXBoAJW72aRg83Jdlo5PEkK3tgpLplkwkjeOnfksGIcPnwKKxyOHcTG2OEPGQwPZyDWRZ%2BWQEE%2F1%2FMvR%2BeEjIuSLpboRuBR0hdswT7bVI7LWtuQRQKhKZKMxaAuPQsspvH0hqt%2BGl0wzgc88eohKCPErXu5qFLu1XDv8zy7%2B%2FvIOLD%2FU4Evv7VcsLwHfGEiZbhc1Py8r8QtyaFMNhg%2BxTQmyoql0sIpFHTVPi1A%2F25%2BsAZVb7OWRvj5Vgx8umF482qp6mSGZjfg8sTinJXbpjnpw%2BkhPaM15SWHD28CjN2XoWWCdgVsbKPxr6Hy16t6y5hDDjhox1dBpAsy9RZSfCob2HUtaFOTJX1IMkiTSfwfuERS0mJr1woc56X786oGMHab89iLkE9nfSD79O4oB50JD1Egj8LgydmHAV6VCJmhfsXlX9rpkRK35WgJ%2BwlNhDPCuY6XTDGDlpCaKM5AMyk7lXR4e2lEUPEJVa9dKpPRTKNVbOOAlbUP24R4HyJ32KppPR0bcocki%2Byrci1Y3prXxRXSB6PbJc9lic069mnWiy7NJJTpcd4krB40eASaE3YmSaNSCC1JbVd%2BG8zjNHyTHmkcJVf0pUMnL29ELCOz7DhmU1xiveJdrAaX3bIYXsM%2FWGsCDLzfC9TBV0zqqLKC013ZN2R1g8EqooVmXA1pB3cS4O%2FmO8pWCdnda5ub3KUiQcrLiRDi8%2BdWPWXv%2Fin58Sh1nwE3Qxqolj0hs4l8H7PlXQwxG3gyQOXfIsf0qGslFY8%2BFcWI1sRwRPetQTYJYiJusFE5xmg4%2BG4efB7yucufsaMkOiINeggnQmgwPdEqIcVqt4SxKqEyyYqycDwBd%2Bu7IdbvqvREZT4eDXlJKbpz66PN4AYWMezxREupdRQXez45JZd0Uf3KZQMjPRTJt7iTn9BjlsDgJKs4XNQklbRsrC4JYP2bpkobsh5njNFSxF%2BsxHZ3IS2D6lzx%2F18vKeOlaVPhsK88TuPlm97EzZ5Y1tGaLJB0AIbYy0INYb0C7eN1Fn6m4zjtKKpLwyu%2BCXas4RZYVghIE%2BrhNqCLHVRA4qj4JjnKXmQG3OsuubeLu%2FWa8kpU%2FRC%2B3w5gQzdWWYPQYX4F2%2BRmAVLISOxrnRu18wFHrB8bIqL2ODGnBiV61Gd7fxvUSzzH5JtQnwCKSzN%2BsVXw2za87psn%2BYL0BRf5X4VwgFisXFoNQVZwZpIvtw0V2S%2BHuLWKFTOsi4IAxv3fZi7HXNRtPLeE4kBtVEjWHQ8f%2Fo5B7NexZT0GUFNhWHT9M1yg6M0zbmUSRpFZx7df97jswZCO6sb5nLdgGyA9C06kBTnFqZ77N28%2FstVlX9HyvMna%2FhluyCo53NecmcUCTyVfK7lqLt%2FfTle%2B23224%2FpP%2BWCMAbWkN4yxDqpxYzWboepfx72Xfy33LubjAPMGnIsMI8vhwPx%2BxZChSbafZltIHS%2BGEBAjQyiq0P9JdwwV3NDISKaoCflZ29DDO6zUHghBSXq2yCSnGQEythWwjJzs%2FWYRe9DKY8KoOz6vqvpWunPmyLIe5HkotQH0wocqOexugP0QB05915jvNcDAG8mTD5JvxowG%2Fa%2FWHwXTOtBbU39ttEo5AmF3bpoIdvXJ9saBTbkxbuQJ0Gv8m7b6JPlLgR%2F9tkl1kfIZjAwSrk8NLZAt7bFibrMiNXkFFhPn5WRzT4T7AaSjTCZkCqbXVZN7xV%2B3aCpXXTxDWvZ0yjNKsHaXJT0ZimdMnncV2%2Flw4NFGtReBVn7V%2B3GYHIixcgtKtIm9LWM%2BBAONxViJ3qhTpmc75GAcX1p0Z9OOV8LPB%2F0Qu3NyFB7OrZYNTXbKON2zipaA9FBMbE8QJN2rEIvcYhFYY%2FNor0doyz8%2BoG%2Fa4vUh02JKPakc74ap%2Bz2fk%2FMMGx2rt%2B8tc%2FAatlpyqfzFhilWCex%2BSwcgt5zIMOacEN%2BoW4gB08Q9aLoISCSAnlQry1xPIIZz8O3sSDUZXZV7YKlSVAPPcsrs4sG167PlJP7YFHyZNYtPDocBIggzeUaOltupkFK7MHvtc5Qs9RrJXkFP%2BpofoPw0Og9YHcc200Xu%2BxiFtoG0zSXlr0CSuVmci0s9u9xbfajBIDSRhRyGMLOwfuXSAZ8yaCgAHAC1C%2BwvXrgxQnPyvXiFU1kd%2Fl%2FTiCip4tdAOJqENi4Yb1bMFWjTpKRxN5vf7Q2Fnjq9lvRPH4UkHws9sAso2M1RCAhXCCVVTOhY8aM4T5%2BDyn46Yn9uR%2Fs7gAIx8PDyo43ljFTVKCAuxot%2FI5kgAO5njrYvkO4ZakzyCQGNkyJtC4v8sa99%2Ffphu1%2BanSpRa5oh76ooXqvYOYnTCSHbfwQSEiznrHLoCG906qixlF93Sl2YdkB6lo8XQBIE2OLboCD8f82RX171HLxwXpyVBnIycPavUTrV%2BLZVAmxFzfNtJLLIrTCbf7adDblopO1cUlXc7QmY6og%2BX6z%2Bfg8qRe4J4qheDvdwe1vQro0%2BtCaW9nxEx4b7vzEjpZitH70a0ksiA6XBZgygvUFb5%2F3QStkYqL9M5ABKwd5Ysr8xfJCLLqFeQ%2BTFK6D4FTBAIxOrFhbXlVZ0OFBgYocfTsxQ5fVAI9zPBn8M%2Bc3akHWTNDABDvanvkNZ9zOG%2BkE5q4E0wGAnKB7o8AGvt%2BJBwbt%2BUqwqVMOqgRjln9DQDZFKFW7afyjO%2BNtCifyOMqRSNsx%2FwasD0Qp45RsnBswMAD%2FDF%2B4I3sRT68rq1Qz8ORoWm2T9BN1XhotjY9J5w3sIKuBbwHHbcAElYqA7IGEMgs%2BPNgieHQ0DhstG3EF1LBj5%2BzqhGABYWrDe50sBrB%2Btht78IOhzWtobWv6OEAcBTYmVnx42Kcfi3q9%2BFllR9wUusOQo4WtvXBenYPTVnqbmfzII%2F0sEhZn46X%2BLzmK110pkUGuZs1Da181dnJ7bpzbGDjK76faD3GR2ilaYyVWMQ1slS7wWxBwiPdpSSfZrCwZieiaw%2BZwkjJd2LWPeLtQptGrPrg4mvDk0U2RoX5KFVFdt8mRWDdMtkjsDBIyaXCarIPzqxNMnNHm3gGeh2CjhJY7CmEqxIZoNPjNDTDSqko1O0g1ftnCv5PawvrsgZ5ZTNAJc3WRfMxycOTKVtWhHMHuxXCkBP%2FyRS0TCAF%2BB4eipDiIlgIKcUbZWfP453uUG70O6MRbHC%2Bo3ZUSFnhdH%2FWQMapvPCvvUgaT0QQCerhBAbsqBkm%2FzyiEGzryv5puZZ9acM%2BCJ8rr6rvDeNniLIp1YPafSX0%2BD3uUDsZ%2BY8CkPCt1KVx01j7w5YEfZhayGtbAXfDd5f%2Bc2sFBbUXsDbh9A20InVAYtLqzrjkY60kwkDZ2T6YK1REi4SCVoxTOV9IBIfmwLDnaulyVMb7byaOI5vbv70oVHXlGiUKnCJ5Hr8c0UGFqGngMr4J89jXxyuFGklZTmybVR5O8GblSgagmdo%2F8woBq22SkIHBQdFZS0HhMasOpSTkD2LTUymVzUVtN6LKsmHHX4JS5EolhQNPVFmyzBaHcRwXTu%2FslNybcovw%2BW%2BBnYkgftfDZNlCELIuZYNFoacWgeypU2jyAsOvNUhTh%2FVNJBAAj1t85%2FH%2BTS3mo6edq%2FJQR3KVp3jcw%2F60NW9L6MnbUSFvAiME4SaFiM1DM7A%2Fvr7Hk26kKhTU3SzHhvYzy5cps0MGEmb%2F3avuXYM8RGbyJyWuRVdrdNOjduDQo%2BidOaejOdv9DSt2YaiscUyd4vGjtGNkbuptPSDIyBUwQdbsF5ZOkVSK8UJuZhy9r6LceNWhHG4EYhHNeZs%2F9cpLYejomf%2F4DAwUDAE9WAhTNNspW84Ap7NWL%2BuNZgGA1u4m829g8gqJ4AXp2dAu9UiIqfDl2aqYrweAQas1QKPcpcz5su%2FaPd3rdUZWn2SU3LrZuGs8ro9O0IxdfjMdYxIApAxXuB%2B8%2BN7vEDKY6Qcl32UuSOCVhV0B06nFphzd2kTVlkqHp4u49%2BLX67T5bVlwIETNiPUj9F7k%2FQR1ICEuhoPBcAmjjaYKdTBQ9LBXYXW1II2EtOvdkDH2Vc3azfIMKv%2BOsbmgcjyHMxX%2BHHdHpFmURTXxTVbg2JGJIDljoso4qMeCBxo35Bw69AHsm7wEzW5NahV4zbR%2BZ1qcIxcYgpoC0wEx%2FPrD1vHmBrn4GwOw3KJYdrWMe%2Bc2nzvATbulUg7rz%2FUNbEL4MiNq%2BqFcTYTWrf8nyjQdt6vHPM%2BfyoMTvqq70GvNETbcXkPj73mAClHHN16%2BTbbmaMUeRG9jQfVCpRwBk3CAYR4AQP15y08xMGl1yxC%2F1CvHi3g%3D%3D%7CQKqLpPRgX5rr5XvV3Hu9lA%3D%3D%7CKk17MEB0ueK3SoK7uJ%2BqbA%3D%3D&tos0=oath_freereg%7Cvn%7Cvi-VN&multiDomain=&firstName=Ngo&lastName=Vu&userid-domain=yahoo&userId={mail}&password=nhqvu2312341&mm=10&dd=10&yyyy=2000&signup="
+
+  h = {
+        'Accept':'*/*',
+  'Accept-Encoding':'gzip, deflate, br',
+  'Accept-Language':'vi',
+  'Content-Length':'16773',
+  'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+  'Cookie':'tbla_id=8d5824d7-33d6-466b-9e81-d3071f131022-tuctbede9b3; DSS=ts=1694535935&cnt=0&sdts=1705082068&sdtp=mcafee; GUCS=AXFKxDEz; GUC=AQEBCAFl0kxl_kIdPwQ8&s=AQAAAOU3RwBV&g=ZdEBUw; A1=d=AQABBP-QAGUCEPuCkTvh6IxuWGcsBua4lBoFEgEBCAFM0mX-ZdTYb2UB_eMBAAcI_5AAZea4lBo&S=AQAAAr5tbvgY6O4IpHs839prlDc; A3=d=AQABBP-QAGUCEPuCkTvh6IxuWGcsBua4lBoFEgEBCAFM0mX-ZdTYb2UB_eMBAAcI_5AAZea4lBo&S=AQAAAr5tbvgY6O4IpHs839prlDc; cmp=t=1708196171&j=0&u=1---; gpp=DBAA; gpp_sid=-1; gam_id=y-Ay3Gb71E2uIzyl3wZlS5Y3fKy2bKSzAM~A; axids=gam=y-Ay3Gb71E2uIzyl3wZlS5Y3fKy2bKSzAM~A&dv360=eS1uR0thdFk1RTJ1RUFXRzRsVDNJRWVMV0k1Vm9BUUt3YX5B&ydsp=y-npqV7_lE2uIpsmb97F19C4tdBKCMFtuQ~A&tbla=y-UxCI88FE2uJ.w1Kq.xkyNSe7f3qqWKq3~A; __gpi=UID=00000d09243261a2:T=1708196171:RT=1708196171:S=ALNI_MaR6qrDEj1y3-EcehEBeHfzJWLtiw; __eoi=ID=c0250b205e296af2:T=1708196171:RT=1708196171:S=AA-AfjaB8B71HLnZpYZjue4voeQe; AS=v=1&s=CzayAHuA&d=B65d2590c|9slRteP.2TpcZ.cjd46wL7_y04s_XhmIwG4D6iWcU3OhLEHXyBB5ZJHUSibC7WBhyBjYRwbX1CrLTolBvxn9I0jFKv.fXyHWcp0aoZmtdYbw4db2UqFPGfWlwbxYPQ.n8pFbJTRCgEm_Cnxg8DlEXv_TZX7E6dyqSpqRhgY0h3JaFki1nNy7tXynUQUPN.OK6l3z3loFIkaR7xlvzXi_.X.2cDzuMcypOTba4T2ZYbJsD1IledZle4j6RjgwBKk8Cbhs7IAohDOYFHJQj9MKfKCXHH8.up95DqR_m94TYdcEHOE2mh0LRjkrI65GNp2wg8ACiqbNV4lt3072IsjD09u8du2tY3FVHjH9HdrYPr2Cia2yFeZTo_OKzj6iFPYNJZRVSU..N9GblaSFgtpXFimsHpvCAZ.PAvb_90oaQJY.tTCHrVB5o88eHlERZf0GVWeWxCO2Z3xt8BlhzgjZ0MhzsjyTom3gOIyTcOVgUWFqtm8CVuY27ss2LCZT1ZOjKQxZumHCvwiuEl_WHhkQAAayWyrTj0Rmrux50qSsICXHvJzFiyV9joS2SSYDGEBWq_2w7y6Zayr8OS_Yn_ctueudB3j4gX8c_9.2Zg_DbIMYAr0uoy2LNEKQvdOxoiVVn2kFApvyI5Bm_P_xr6YUW6aHHwev8H.qVr5B_oMDofO.QldF2yYLevMPW24NMhBSUmR3TmGTn0iopYckt.dpCH2GWgDERcYyhnoDaZpny5Q.y7J8YgVtz2F5ma2WcPVEL1p.MUQjDTL67H4q_TPeHnseJcKjwPQLHetj_TDNJJWPo907HLHi0sb10E3v5No8NnJzKNHJZUYjwedT5sUzp97q3q5.DcukWen4.k764Desi9TmuwELMO.n1ENt0mze8jj4LtO1pIe5JSpI7eXEetLvFCy5zomhhjupGYWmLg--~A; A1S=d=AQABBP-QAGUCEPuCkTvh6IxuWGcsBua4lBoFEgEBCAFM0mX-ZdTYb2UB_eMBAAcI_5AAZea4lBo&S=AQAAAr5tbvgY6O4IpHs839prlDc&j=WORLD',
+  'Origin':'https://login.yahoo.com',
+  'Referer':'https://login.yahoo.com/account/create?specId=yidregsimplified&done=https%3A%2F%2Fwww.yahoo.com',
+  'Sec-Ch-Ua':'"Not A(Brand";v="99", "Microsoft Edge";v="121", "Chromium";v="121"',
+  'Sec-Ch-Ua-Mobile':'?0',
+  'Sec-Ch-Ua-Platform':'"Windows"',
+  'Sec-Fetch-Dest':'empty',
+  'Sec-Fetch-Mode':'cors',
+  'Sec-Fetch-Site':'same-origin',
+  'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0',
+  'X-Requested-With':'XMLHttpRequest'
+    }
+  try:
+    a = requests.post("https://login.yahoo.com/account/module/create?validateField=userId", headers=h, data=d).json()["errors"]
+    print(a)
+    if a == []:
+      result_box1.configure(state = "normal")
+      result_box1.insert(customtkinter.END,email+"\n")
+      yahoo_hits+=1
+    else:
+      yahoo_custom+=1
+  except:
+     yahoo_retries+=1
+     Yahoo(email)
+
+main_frame1 = customtkinter.CTkFrame(tab2, height=600, width=390)
+main_frame1.grid(row = 0, column = 1, sticky = "nsew")
+main_frame1.columnconfigure(0, weight=1)
+main_frame1.rowconfigure((0,1,2), weight=1)
+
+input_frame1 = customtkinter.CTkFrame(main_frame1, width=390, height=90)
+input_frame1.grid(row = 0, column = 1, sticky = "nsew")
+input_frame1.columnconfigure((0, 1), weight=1)
+input_frame1.rowconfigure((0,1,2), weight=1)
+
+def input_data_mail1():
+    global cks
+    file_text_path = customtkinter.filedialog.askopenfilename(title="Nhập file list mail")
+    if file_text_path!="":
+        cks= open(file_text_path, "r", encoding="utf-8").readlines()
+        info_result_text1.configure(text = f"""[RESULT]\n\nHITS: 0\n\nCUSTOM: 0\n\nRETRIES: 0\n\nPROGRESS: 0/{len(cks)} - 0%\n\nCPM: 0""")
+        log_text_box1.configure(state = "normal")
+        log_text_box1.insert(customtkinter.END, f"\nNhập thành công file data {file_text_path}")
+        log_text_box1.configure(state = "disabled")
+        list_token = [i.strip("\n") for i in cks]
+        for i in list_token:
+          input_data1.insert(customtkinter.END, i+"\n")
+
+def start1():
+    def check_status():
+       while yahoo_hits+yahoo_custom<len(cks):
+          current = yahoo_hits+yahoo_custom
+          time.sleep(3)
+          cpm = ((yahoo_hits+yahoo_custom)-current)*20
+          percent = (yahoo_hits+yahoo_custom)*100//len(cks)
+          info_result_text1.configure(text = f"""[RESULT]\n\nHITS: {yahoo_hits}\n\nCUSTOM: {yahoo_custom}\n\nRETRIES: {yahoo_retries}\n\nPROGRESS: {yahoo_hits+yahoo_custom}/{len(cks)} - {percent}%\n\nCPM: {cpm}""")
+    list_mail = input_data1.get("0.0", "end").split("\n")
+    print(len(list_mail))
+    def run():
+      for i in range(0,len(list_mail),int(luong1.get())):
+        threads=[]
+        aaa = list_mail[i:i+int(luong1.get())]
+        for i in range(len(aaa)):
+            c = aaa[i]
+            threads+=[threading.Thread(target=Yahoo,args={c},)]
+        tt = threading.Thread(target=check_status)
+        tt.start()
+        for i in threads:
+            i.start()
+        for i in threads:
+            i.join()
+      tt.join()
+    threading.Thread(target=run).start()
+
+start_button1 = customtkinter.CTkButton(input_frame1, width=190, height=45, text="START", command=start1)
+start_button1.grid(row = 0, column = 0, sticky = "nsew")
+stop_button1 = customtkinter.CTkButton(input_frame1, width=190, height=45, text="STOP")
+stop_button1.grid(row = 0, column = 1, sticky = "nsew")
+proxy_button1 = customtkinter.CTkButton(input_frame1, width=190, height=40, text="PROXY")
+proxy_button1.grid(row = 1, column = 0, sticky = "nsew")
+data_button1 = customtkinter.CTkButton(input_frame1, width=190, height=40, text="DATA", command=input_data_mail1)
+data_button1.grid(row = 1, column = 1, sticky = "nsew")
+api_proxy = customtkinter.StringVar()
+
+def select_option(event):
+    global api_proxy
+    api_proxy = drop_down_menu.get()
+
+options = ["None", "Https", "Socks5","Socks4"]
+drop_down_menu = customtkinter.CTkOptionMenu(input_frame1, values=options, command=select_option, width=160, height=5)
+drop_down_menu.set("Choose proxy")
+drop_down_menu.grid(row=2, column=0, sticky = "nsew")
+luong1 = customtkinter.CTkEntry(input_frame1, placeholder_text="Nhập luồng", width=160, height=5)
+luong1.grid(row = 2, column = 1, sticky = "nsew")
+
+result_box1 = customtkinter.CTkTextbox(main_frame1, width=390, height=250)
+result_box1.grid(row = 1, column = 1, sticky = "nsew")
+result_box1.configure(state = "disabled")
+
+info_result1 = customtkinter.CTkFrame(main_frame1, width=390, height=50)
+info_result1.grid(row = 2, column = 1, sticky = "nsew")
+info_result_text1 = customtkinter.CTkLabel(info_result1, width=390, height=50, text = f"""[RESULT]\n\nHITS: 0\n\nCUSTOM: 0\n\nRETRIES: 0\n\nPROGRESS: 0/0 - 0%\n\nCPM: 0""")
+info_result_text1.pack(side = customtkinter.LEFT)
+
+
+log_frame1 = customtkinter.CTkFrame(tab2, height=600, width=590)
+log_frame1.grid(row = 0, column = 0, sticky = "nsew")
+log_frame1.columnconfigure(0, weight=1)
+log_frame1.rowconfigure((1,0), weight=1)
+
+input_data1 = customtkinter.CTkTextbox(log_frame1, height=450, width=590)
+input_data1.grid(row = 0, column = 0, sticky = "nsew")
+
+log_text_box1 = customtkinter.CTkTextbox(log_frame1, height=150, width=590)
+log_text_box1.grid(row = 1, column = 0, sticky = "nsew")
+log_text_box1.insert(customtkinter.END, "*Paste list mail vào ô bên trên hoặc chọn nhập file txt, mỗi mail là một dòng, các định dạng hợp lệ bao gồm: abc@yahoo.com:password, abc@yahoo.com. Với luồng thấp có thể chạy No proxy mà không bị retry nhiều lần còn nếu chạy luồng cao thì cần thêm proxy*")
+log_text_box1.configure(state = "disabled")
+
+#hotmail
+
+def hotmail(email):
+    global hotmail_hits, hotmail_custom, hotmail_retries
+    mail = email.split(":")[0]
+    a = requests.get(f"https://signup.live.com/signup?username={mail}&lic=1").text
+    if 'isAvailable' in a:
+        result_box2.configure(state = "normal")
+        result_box2.insert(customtkinter.END,email+"\n")
+        hotmail_hits+=1
+    else:
+        hotmail_custom+=1
+
+hotmail_hits = 0
+hotmail_custom = 0
+hotmail_retries = 0
+
+main_frame2 = customtkinter.CTkFrame(tab3, height=600, width=390)
+main_frame2.grid(row = 0, column = 1, sticky = "nsew")
+main_frame2.columnconfigure(0, weight=1)
+main_frame2.rowconfigure((0,1,2), weight=1)
+
+input_frame2 = customtkinter.CTkFrame(main_frame2, width=390, height=90)
+input_frame2.grid(row = 0, column = 1, sticky = "nsew")
+input_frame2.columnconfigure((0, 1), weight=1)
+input_frame2.rowconfigure((0,1,2), weight=1)
+
+def input_data_mail():
+    global ckss
+    file_text_path = customtkinter.filedialog.askopenfilename(title="Nhập file list mail")
+    if file_text_path!="":
+        ckss= open(file_text_path, "r", encoding="utf-8").readlines()
+        info_result_text2.configure(text = f"""[RESULT]\n\nHITS: 0\n\nCUSTOM: 0\n\nRETRIES: 0\n\nPROGRESS: 0/{len(ckss)} - 0%\n\nCPM: 0""")
+        log_text_box2.configure(state = "normal")
+        log_text_box2.insert(customtkinter.END, f"\n\nNhập thành công file data {file_text_path}")
+        log_text_box2.configure(state = "disabled")
+        list_token = [i.strip("\n") for i in ckss]
+        for i in list_token:
+          input_data2.insert(customtkinter.END, i+"\n")
+
+def start():
+    def check_status():
+       while hotmail_hits+hotmail_custom<len(ckss):
+          current = hotmail_hits+hotmail_custom
+          time.sleep(3)
+          cpm = ((hotmail_hits+hotmail_custom)-current)*20
+          percent = (hotmail_hits+hotmail_custom)*100//len(ckss)
+          info_result_text2.configure(text = f"""[RESULT]\n\nHITS: {hotmail_hits}\n\nCUSTOM: {hotmail_custom}\n\nRETRIES: {hotmail_retries}\n\nPROGRESS: {hotmail_hits+hotmail_custom}/{len(ckss)} - {percent}%\n\nCPM: {cpm}""")
+    list_mail = input_data2.get("0.0", "end").split("\n")
+    print(len(list_mail))
+    def run():
+      for i in range(0,len(list_mail),int(luong2.get())):
+        threads=[]
+        aaa = list_mail[i:i+int(luong2.get())]
+        for i in range(len(aaa)):
+            c = aaa[i]
+            threads+=[threading.Thread(target=hotmail,args={c},)]
+        tt = threading.Thread(target=check_status)
+        tt.start()
+        for i in threads:
+            i.start()
+        for i in threads:
+            i.join()
+      tt.join()
+    threading.Thread(target=run).start()
+
+start_button2 = customtkinter.CTkButton(input_frame2, width=190, height=45, text="START", command=start)
+start_button2.grid(row = 0, column = 0, sticky = "nsew")
+stop_button2 = customtkinter.CTkButton(input_frame2, width=190, height=45, text="STOP")
+stop_button2.grid(row = 0, column = 1, sticky = "nsew")
+proxy_button2 = customtkinter.CTkButton(input_frame2, width=190, height=40, text="PROXY")
+proxy_button2.grid(row = 1, column = 0, sticky = "nsew")
+data_button2 = customtkinter.CTkButton(input_frame2, width=190, height=40, text="DATA", command=input_data_mail)
+data_button2.grid(row = 1, column = 1, sticky = "nsew")
+api_proxy = customtkinter.StringVar()
+
+def select_option(event):
+    global api_proxy
+    api_proxy = drop_down_menu.get()
+
+options = ["None", "Https", "Socks5","Socks4"]
+drop_down_menu = customtkinter.CTkOptionMenu(input_frame2, values=options, command=select_option, width=160, height=5)
+drop_down_menu.set("Choose proxy")
+drop_down_menu.grid(row=2, column=0, sticky = "nsew")
+luong2 = customtkinter.CTkEntry(input_frame2, placeholder_text="Nhập luồng", width=160, height=5)
+luong2.grid(row = 2, column = 1, sticky = "nsew")
+
+result_box2 = customtkinter.CTkTextbox(main_frame2, width=390, height=250)
+result_box2.grid(row = 1, column = 1, sticky = "nsew")
+result_box2.configure(state = "disabled")
+
+info_result2 = customtkinter.CTkFrame(main_frame2, width=390, height=50)
+info_result2.grid(row = 2, column = 1, sticky = "nsew")
+info_result_text2 = customtkinter.CTkLabel(info_result2, width=390, height=50, text = f"""[RESULT]\n\nHITS: 0\n\nCUSTOM: 0\n\nRETRIES: 0\n\nPROGRESS: 0/0 - 0%\n\nCPM: 0""")
+info_result_text2.pack(side = customtkinter.LEFT)
+
+
+log_frame2 = customtkinter.CTkFrame(tab3, height=600, width=590)
+log_frame2.grid(row = 0, column = 0, sticky = "nsew")
+log_frame2.columnconfigure(0, weight=1)
+log_frame2.rowconfigure((1,0), weight=1)
+
+input_data2 = customtkinter.CTkTextbox(log_frame2, height=450, width=590)
+input_data2.grid(row = 0, column = 0, sticky = "nsew")
+
+log_text_box2= customtkinter.CTkTextbox(log_frame2, height=150, width=590)
+log_text_box2.grid(row = 1, column = 0, sticky = "nsew")
+log_text_box2.insert(customtkinter.END, "*Paste list mail vào ô bên trên hoặc chọn nhập file txt, mỗi mail là một dòng, các định dạng hợp lệ bao gồm: abc@hotmail.com:password, abc@hotmail.com. Với luồng thấp có thể chạy No proxy mà không bị retry nhiều lần còn nếu chạy luồng cao thì cần thêm proxy*")
+log_text_box2.configure(state = "disabled")
+
+#Domain
+
+
+def domain(email):
+    global domain_hits, domain_custom, domain_retries
+    dm = email.split(":")[0].split("@")[1]
+    h = {
+    "Cookie":'market=vi-VN; currency=USD; xpdpp3=B; visitor=vid=dac67ecf-185b-4cc7-9877-f4929f0a8840; _policy={"restricted_market":false,"tracking_market":"implicit"}; actpro=abodrhigacbfajohoegexjkfdjobofdikjnfjfxhjacbveifmbwcufmjvjyiubif; _gcl_au=1.1.1772361661.1708202422; _gid=GA1.2.1292411988.1708202423; FPID=FPID2.2.ZvfFfNYosTdYBvR98v%2BP620P%2Bu8r55DagWQ0qGSpH3c%3D.1708202423; FPLC=skQD45WwqmqNd0gwlneZh%2BW%2F6znXZRaiz9JDrodb%2B8WuDkO1Poksaw0x0dq3Mdy7j9mS5xvPHtn72bRkvl5WCmALDeHvwi3grW6Q9SnLM3h0NMtF46IQ75eI2H37jg%3D%3D; CESSID=94d7d1d4-ac46-403e-8a8b-a46115cbea34; _clck=hwca1u%7C2%7Cfjc%7C0%7C1508; fs_uid=#YKBRC#6302366711754752:5343476946914578584:::#/1739738424; LPVID=FhYjBjYWE0ZjkxNTA1YzA4; LPSID-30187337=oBCL_OtdRWaguoyEsdJUnw; _tq_id.TV-81459054-1.2e4f=db1327e7f363ccb4.1708202443.0.1708202443..; QSI_HistorySession=https%3A%2F%2Fvn.godaddy.com%2Fdomain-value-appraisal~1708202443453; _clsk=1ghhtl3%7C1708202444264%7C1%7C0%7Co.clarity.ms%2Fcollect; akacd_EFD_rollout_domainfind=2177452799~rv=23~id=23f67ae8f8a07f082e04b087ec4480c5; cust_idp=eyJhbGciOiAiUlMyNTYiLCAia2lkIjogIjdYa0NsWHl0YWcifQ.eyJzaG9wcGVySWQiOiAiNjA0MTQzMzMzIiwgImNpZCI6ICI5MzM2MjRlNC1kOTZlLTRjMjgtYmU5Yy1hMTYyYWVhMzhjYmYiLCAicGxpZCI6ICIxIiwgInR5cCI6ICJpZHAiLCAiYXV0aCI6ICJub25lIiwgInNoYXJkIjogIjAyNDIiLCAiY3R5cGUiOiAiU0hPUFBFUiJ9.aCRlC4j1W6g7yFw_g_WiTGhhiDSBZ1eIJLq8XRFHlBPHz27RN-CI65JuEDBkWVwtmL4dxzIshMb3IgBFP2PaTA1XqYdc5VL-emu7kLGRAFoapfbtrxEFMW5sU0oB3Hzr5hLLfqRGNusFjOFaxr8CJKh5vokbgc23DQAAB1b8eKcXOHTEAXxE0xf9J69bWye2G7HZC2UX9S_iLhrMWKiwj8IeJk0jcFRVxVy_yIMHB_z4Pj5Oy3ghi2xOuGeYETHx1bxpg1GhVTnHtERFme3DPIzFVuLJU0fllTle9SAKydzr9hCXnZlDcgnpMXCiqrpbqpW2VVeLJSAmkDKOvxVK-w; info_cust_idp=%7B%22typ%22%3A%20%22idp%22%2C%20%22info_shopperId%22%3A%20%22604143333%22%2C%20%22plid%22%3A%20%221%22%2C%20%22auth%22%3A%20%22none%22%2C%20%22info_cid%22%3A%20%22933624e4-d96e-4c28-be9c-a162aea38cbf%22%2C%20%22ctype%22%3A%20%22SHOPPER%22%2C%20%22username%22%3A%20%22hanqvu2005%40gmail.com%22%2C%20%22firstname%22%3A%20%22Quang%20Vu%22%2C%20%22lastname%22%3A%20%22Ngo%20Han%22%2C%20%22currency%22%3A%20%22VND%22%7D; _uetsid=c6f10190cdd411ee9649f9908efb97ab; _uetvid=c6f0eda0cdd411eeb43a83ceff564c5b; pathway=b2157de5-6eb9-41ee-8345-cf3285467931; fb_sessiontraffic=S_TOUCH=&pathway=b2157de5-6eb9-41ee-8345-cf3285467931&V_DATE=&pc=1&C_TOUCH=2024-02-18T10:13:49.759Z; OPTOUTMULTI=0:0%7Cc2:0%7Cc9:0%7Cc11:0; _abck=5E624F6C5EBCEB0D434B4C25B3A26994~-1~YAAQeBACF9DEELCNAQAAZy21uws0Q6eL+d0DToN2Ckr2Zwn7BUYfxS4ZasHSiNrYanteL3YbHWLXxF/UXqX3ZmPyA7dYHGduqp0kZKg+e4+I7MaU02czbF2w+1KD/ZwMD6vthQ8k9K6W/Qwi0OBAYk5xjprw4+H8xGL6EfHJkbmP3yhQzyuD2MvLg6L4R0ceFBP/yi7cRLSbuDAi0qMSPWWFvYvcX3QEEMRlH5mBuwU+ktG4EnN0cCfBVCDToG/N5rsdlsTbuexCCKhVOa9gcAMSOGxx7ZBrYCUmLE8Em6TcAAz4NBQsz9hvmC8ucMVKfoxSCEJB8nIyhIRlqND2agL7nEX2WKd8NjyNAxwo9H9+yCxowSsvHPspnDe088trwyqIKb1J9wnKbq+1/yYGpg1AsGlhbhAlZQ0p~-1~-1~-1; bm_sz=3507B73130666E8251BDA1CFAE4CDD3F~YAAQeBACF9HEELCNAQAAZy21uxbhjhCQ0beOIAT6u+/rzv6lidxyF4WIsxTV54mqnd7YTwRhyy2mzKyFx9BNF7FO3Y+c4niSl4o1ymhUNj/61Q5qPj/PwgebOoFaSpTBfbdXeNmykwU76+h7DuCoL+90nCIGx9+o334fr7m/XO4oKAwYAdRsM5gf4xcitISmTkvwk9IkyCoMlTpzmWAzjZVvvl/oGtMzIrxFspGpqspJuSRcSt2sv+PP2Okza0P2Y+wE1bimPrMR2lPF27aXEq05lPDt/qJr+eEqgefLwoF8X4NqXUVzksp9lurjUuXWuapYZtC7QlQ8+z7Z5tg=~3551809~4601397; auth_idp=eyJhbGciOiAiUlMyNTYiLCAia2lkIjogIjdYa0NsWHl0YWcifQ.eyJhdXRoIjogImJhc2ljIiwgImZ0YyI6IDEsICJpYXQiOiAxNzA4MjAyODA3LCAianRpIjogImk0ckJkeE1OY1RrdjNWRXhuQnEyOUEiLCAidHlwIjogImlkcCIsICJ2YXQiOiAxNzA4MjUxMjI5LCAiZmFjdG9ycyI6IHsia19mYiI6IDE3MDgyMDI4MDd9LCAiaGJpIjogMTcwODIwMjgwNywgInNob3BwZXJJZCI6ICI2MDQxNDMzMzMiLCAiY2lkIjogIjkzMzYyNGU0LWQ5NmUtNGMyOC1iZTljLWExNjJhZWEzOGNiZiIsICJwbGlkIjogIjEiLCAicGx0IjogMSwgInNoYXJkIjogIjAyNDIiLCAiaWRlbnRpdHkiOiAiYWFiYjhjYzQtY2RkNS0xMWVlLTk3M2UtZDJkN2MyMzVkZWI0In0.hGviDZ9tr-uPFkKtqEUF7ipuQFq0sJLEMFKIk4fZVvBYbDM7XUKrh82KPxOdIx0-KeI1qa5sDiMuX6MvhLl7ESfaiaPi7aOvXwCmIGvH7QT70BqJSM1q8O2nNLX4elcS1IHfXa-HGxu2d-Rx1GxeIy29MhJC0a3bHqyNUZ0Z0nlSRgrSspG_1-lRMRWAJGZ7aErlcFvf_0hYB4Yb91Ah4ImLYR6zsCiWcKm2B4wUOyuZgRRhAbiRr_EZ2Bo-Tye5SgEo0hfeVNBOWd-tBhHamX129IejVr5AxiiNJY8nptSR0PbTILAfxoxc4LSPGgcQBdXRDja0foISDGgRg_CPmw; info_idp=%7B%22typ%22%3A%20%22idp%22%2C%20%22info_shopperId%22%3A%20%22604143333%22%2C%20%22plid%22%3A%20%221%22%2C%20%22plt%22%3A%201%2C%20%22jti%22%3A%20%22i4rBdxMNcTkv3VExnBq29A%22%2C%20%22auth%22%3A%20%22basic%22%2C%20%22iat%22%3A%201708202807%2C%20%22info_cid%22%3A%20%22933624e4-d96e-4c28-be9c-a162aea38cbf%22%2C%20%22vat%22%3A%201708251229%2C%20%22factors%22%3A%20%7B%22k_fb%22%3A%201708202807%7D%2C%20%22info_identity%22%3A%20%22aabb8cc4-cdd5-11ee-973e-d2d7c235deb4%22%2C%20%22username%22%3A%20%22hanqvu2005%40gmail.com%22%2C%20%22firstname%22%3A%20%22Quang%20Vu%22%2C%20%22lastname%22%3A%20%22Ngo%20Han%22%2C%20%22currency%22%3A%20%22VND%22%2C%20%22pcx%22%3A%20false%2C%20%22mbr%22%3A%200%2C%20%22segopts%22%3A%200%7D; info_idp_vat_time=1708251230404; _ga_QJXPZE4TX8=GS1.1.1708251231.2.0.1708251231.0.0.0; _ga=GA1.1.521757588.1708202423; _gat_gtag_UA_115508484_1=1',
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+    }
+    try:
+      a = requests.get(f"https://vn.godaddy.com/domainfind/v1/search/exact?key=appraisals_search&pc=&ptl=&q={dm}&req_id=1708202911826", headers=h).text
+      if "available_for_registration" in a:
+          result_box.configure(state = "normal")
+          result_box.insert(customtkinter.END,email+"\n")
+          domain_hitshits+=1
+          open("domain_die.txt", "a", encoding="utf-8").write(email+"\n")
+      else:
+         domain_custom+=1
+    except:
+       domain_retries+=1
+       domain(email)
+
+domain_hits = 0
+domain_custom = 0
+domain_retries = 0
+
+main_frame = customtkinter.CTkFrame(tab4, height=600, width=390)
+main_frame.grid(row = 0, column = 1, sticky = "nsew")
+main_frame.columnconfigure(0, weight=1)
+main_frame.rowconfigure((0,1,2), weight=1)
+
+input_frame = customtkinter.CTkFrame(main_frame, width=390, height=90)
+input_frame.grid(row = 0, column = 1, sticky = "nsew")
+input_frame.columnconfigure((0, 1), weight=1)
+input_frame.rowconfigure((0,1,2), weight=1)
+
+def input_data_mail():
+    global cksss
+    file_text_path = customtkinter.filedialog.askopenfilename(title="Nhập file list mail")
+    if file_text_path!="":
+        cksss= open(file_text_path, "r", encoding="utf-8").readlines()
+        info_result_text.configure(text = f"""[RESULT]\n\nHITS: 0\n\nCUSTOM: 0\n\nRETRIES: 0\n\nPROGRESS: 0/{len(cksss)} - 0%\n\nCPM: 0""")
+        log_text_box.configure(state = "normal")
+        log_text_box.insert(customtkinter.END, f"\nNhập thành công file data {file_text_path}")
+        log_text_box.configure(state = "disabled")
+        list_token = [i.strip("\n") for i in cksss]
+        for i in list_token:
+          input_data.insert(customtkinter.END, i+"\n")
+
+def start():
+    def check_status():
+       while domain_hits+domain_custom<len(cksss):
+          current = domain_hits+domain_custom
+          time.sleep(3)
+          cpm = ((domain_hits+domain_custom)-current)*20
+          percent = (domain_hits+domain_custom)*100//len(cksss)
+          info_result_text.configure(text = f"""[RESULT]\n\nHITS: {domain_hits}\n\nCUSTOM: {domain_custom}\n\nRETRIES: {domain_retries}\n\nPROGRESS: {domain_hits+domain_custom}/{len(cksss)} - {percent}%\n\nCPM: {cpm}""")
+    list_mail = input_data.get("0.0", "end").split("\n")
+    print(len(list_mail))
+    def run():
+      for i in range(0,len(list_mail),int(luong.get())):
+        threads=[]
+        aaa = list_mail[i:i+int(luong.get())]
+        for i in range(len(aaa)):
+            c = aaa[i]
+            threads+=[threading.Thread(target=domain,args={c},)]
+        tt = threading.Thread(target=check_status)
+        tt.start()
+        for i in threads:
+            i.start()
+        for i in threads:
+            i.join()
+      tt.join()
+    threading.Thread(target=run).start()
+
+start_button = customtkinter.CTkButton(input_frame, width=190, height=45, text="START", command=start)
+start_button.grid(row = 0, column = 0, sticky = "nsew")
+stop_button = customtkinter.CTkButton(input_frame, width=190, height=45, text="STOP")
+stop_button.grid(row = 0, column = 1, sticky = "nsew")
+proxy_button = customtkinter.CTkButton(input_frame, width=190, height=40, text="PROXY")
+proxy_button.grid(row = 1, column = 0, sticky = "nsew")
+data_button = customtkinter.CTkButton(input_frame, width=190, height=40, text="DATA", command=input_data_mail)
+data_button.grid(row = 1, column = 1, sticky = "nsew")
+api_proxy = customtkinter.StringVar()
+
+def select_option(event):
+    global api_proxy
+    api_proxy = drop_down_menu.get()
+
+options = ["None", "Https", "Socks5","Socks4"]
+drop_down_menu = customtkinter.CTkOptionMenu(input_frame, values=options, command=select_option, width=160, height=5)
+drop_down_menu.set("Choose proxy")
+drop_down_menu.grid(row=2, column=0, sticky = "nsew")
+luong = customtkinter.CTkEntry(input_frame, placeholder_text="Nhập luồng", width=160, height=5)
+luong.grid(row = 2, column = 1, sticky = "nsew")
+
+result_box = customtkinter.CTkTextbox(main_frame, width=390, height=250)
+result_box.grid(row = 1, column = 1, sticky = "nsew")
+result_box.configure(state = "disabled")
+
+info_result = customtkinter.CTkFrame(main_frame, width=390, height=50)
+info_result.grid(row = 2, column = 1, sticky = "nsew")
+info_result_text = customtkinter.CTkLabel(info_result, width=390, height=50, text = f"""[RESULT]\n\nHITS: 0\n\nCUSTOM: 0\n\nRETRIES: 0\n\nPROGRESS: 0/0 - 0%\n\nCPM: 0""")
+info_result_text.pack(side = customtkinter.LEFT)
+
+
+log_frame = customtkinter.CTkFrame(tab4, height=600, width=590)
+log_frame.grid(row = 0, column = 0, sticky = "nsew")
+log_frame.columnconfigure(0, weight=1)
+log_frame.rowconfigure((1,0), weight=1)
+
+input_data = customtkinter.CTkTextbox(log_frame, height=450, width=590)
+input_data.grid(row = 0, column = 0, sticky = "nsew")
+
+log_text_box = customtkinter.CTkTextbox(log_frame, height=150, width=590)
+log_text_box.grid(row = 1, column = 0, sticky = "nsew")
+log_text_box.insert(customtkinter.END, "*Paste list mail vào ô bên trên hoặc chọn nhập file txt, mỗi mail là một dòng, các định dạng hợp lệ bao gồm: abc@domain.com:password, abc@domain.com. Với luồng thấp có thể chạy No proxy mà không bị retry nhiều lần còn nếu chạy luồng cao thì cần thêm proxy*")
+log_text_box.configure(state = "disabled")
+
+app.mainloop()
